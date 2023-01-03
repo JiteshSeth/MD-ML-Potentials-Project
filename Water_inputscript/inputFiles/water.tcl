@@ -3,6 +3,7 @@ package require topotools
 
 set molname "water1"
 
+
 solvate -minmax {{0 0 0} {50 50 50}} -o ${molname}
 
 mol load psf ${molname}.psf pdb ${molname}.pdb
