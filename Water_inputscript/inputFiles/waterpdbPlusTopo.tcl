@@ -30,8 +30,8 @@ resetpsf
 mol delete all
 
 topology wat.top
-segment TIP {pdb waters.pdb}
-coordpdb waters.pdb TIP
+segment TIP {pdb water.pdb}
+coordpdb water.pdb TIP
 writepsf waters.psf
 writepdb waters.pdb
 
