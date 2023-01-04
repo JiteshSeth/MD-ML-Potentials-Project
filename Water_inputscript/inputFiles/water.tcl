@@ -1,10 +1,10 @@
 package require solvate
 package require topotools
 
-set molname "water1"
+set molname "waters"
 
 
-solvate -minmax {{0 0 0} {50 50 50}} -o ${molname}
+#solvate -minmax {{0 0 0} {50 50 50}} -o ${molname}
 
 mol load psf ${molname}.psf pdb ${molname}.pdb
 
