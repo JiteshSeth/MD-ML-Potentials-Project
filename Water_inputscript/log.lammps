@@ -1,26 +1,31 @@
-LAMMPS (7 Aug 2019)
+LAMMPS (23 Jun 2022 - Update 2)
+WARNING: Using I/O redirection is unreliable with parallel runs. Better use -in switch to read input file. (../lammps.cpp:530)
 units		real
 atom_style	full
 
 read_data	inputFiles/water.lmpsys
-  orthogonal box = (-0.013 -0.019999 -0.0185) to (49.987 49.98 49.9815)
-  1 by 1 by 1 MPI processor grid
+Reading data file ...
+  orthogonal box = (-0.5 -0.5 -0.5) to (0.5 0.5 0.5)
+  1 by 2 by 2 MPI processor grid
   reading atoms ...
-  11763 atoms
+  4500 atoms
   scanning bonds ...
   2 = max bonds/atom
   scanning angles ...
   1 = max angles/atom
   reading bonds ...
-  7842 bonds
+  3000 bonds
   reading angles ...
-  3921 angles
-  2 = max # of 1-2 neighbors
-  1 = max # of 1-3 neighbors
-  1 = max # of 1-4 neighbors
-  2 = max # of special neighbors
-  special bonds CPU = 0.00179718 secs
-  read_data CPU = 0.0219536 secs
+  1500 angles
+Finding 1-2 1-3 1-4 neighbors ...
+  special bond factors lj:    0        0        0       
+  special bond factors coul:  0        0        0       
+     2 = max # of 1-2 neighbors
+     1 = max # of 1-3 neighbors
+     1 = max # of 1-4 neighbors
+     2 = max # of special neighbors
+  special bonds CPU = 0.001 seconds
+  read_data CPU = 0.025 seconds
 
 pair_style	lj/cut/coul/long 10.0 10.0
 kspace_style 	pppm 0.0001
