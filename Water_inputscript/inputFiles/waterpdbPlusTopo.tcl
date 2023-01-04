@@ -35,7 +35,6 @@ coordpdb waters.pdb TIP
 writepsf waters.psf
 writepdb waters.pdb
 
-resetpsf
-mol delete all
+
 
 exit
