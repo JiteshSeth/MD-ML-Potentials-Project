@@ -26,6 +26,7 @@ $sel set name H2
 set sel [atomselect top "type HT OT"]
 $sel writepdb waters.pdb
 
+
 resetpsf
 mol delete all
 
