@@ -19,15 +19,22 @@ neigh_modify    every 1 delay 0 check yes
 
 velocity        all create 300.0 7654321
 
-thermo_style    custom step temp press vol density pe evdwl ecoul etotal
-thermo          1000  
-log             outputFiles/thermo.log
 
 minimize 	1.0e-4 1.0e-4 1000 1000
 
+
+#fix             3 all ave/time 20 50 1000 temp epair press
+#file ave.dens_1000kgm3.out format %.8g
 fix 		fxshk all shake 0.0001 20 0 b 1 a 1
 fix 		fxnvt all nvt temp 300.0 300.0 100.0
 #fix             fxnpt all npt temp 300.0 300.0 100.0 iso 1.0 1.0 100.0 
+
+
+thermo_style    custom step temp press vol density epair
+thermo          1000  
+log             outputFiles/thermo.log
+
+
 
 #run 		10000
 dump            dmpall	all dcd	100 outputFiles/water.dcd   

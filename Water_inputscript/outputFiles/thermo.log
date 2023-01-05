@@ -1,65 +1,67 @@
 
-minimize 	1.0e-4 1.0e-4 1000 1000
+
+
+#run 		10000
+dump            dmpall	all dcd	100 outputFiles/water.dcd
+run 		10000
 PPPM initialization ...
   using 12-bit tables for long-range coulomb (../kspace.cpp:342)
-  G vector (1/distance) = 0.26205769
+  G vector (1/distance) = 0.26206268
   grid = 18 18 18
   stencil order = 5
-  estimated absolute RMS force accuracy = 0.032917194
-  estimated relative force accuracy = 9.9129151e-05
+  estimated absolute RMS force accuracy = 0.031661931
+  estimated relative force accuracy = 9.5348965e-05
   using double precision KISS FFT
   3d grid and FFT values/proc = 6400 1620
 Generated 0 of 1 mixed pair_coeff terms from geometric mixing rule
-Neighbor list info ...
-  update every 1 steps, delay 0 steps, check yes
-  max neighbors/atom: 2000, page size: 100000
-  master list distance cutoff = 12
-  ghost atom cutoff = 12
-  binsize = 6, bins = 6 6 6
-  1 neighbor lists, perpetual/occasional/extra = 1 0 0
-  (1) pair lj/cut/coul/long, perpetual
-      attributes: half, newton on
-      pair build: half/bin/newton
-      stencil: half/bin/3d
-      bin: standard
-Per MPI rank memory allocation (min/avg/max) = 10.31 | 10.51 | 10.71 Mbytes
-   Step          Temp          Press          Volume        Density         PotEng         E_vdwl         E_coul         TotEng    
-         0   300            8.4007194e+08  44872.645      0.99999924     1.3749489e+08  1.3747263e+08  76294.728      1.3749891e+08
-        35   300           -1.8351474e+16  44872.645      0.99999924    -3.1423816e+16  20432.778     -3.1423816e+16 -3.1423816e+16
-Loop time of 8.56737 on 4 procs for 35 steps with 4500 atoms
+Per MPI rank memory allocation (min/avg/max) = 10.09 | 10.1 | 10.11 Mbytes
+   Step          Temp          Press          Volume        Density         E_pair    
+        92   450.05405     -3877.1636      44871.332      0.9253597     -15697.876    
+      1000   303.49447     -5.4431288      44871.332      0.9253597     -13536.661    
+      2000   303.22161     -777.7102       44871.332      0.9253597     -13552.736    
+      3000   311.2134      -631.9609       44871.332      0.9253597     -13656.005    
+      4000   301.21706     -576.22393      44871.332      0.9253597     -13638.123    
+      5000   290.90544     -190.78749      44871.332      0.9253597     -13611.629    
+      6000   296.5176      -445.85902      44871.332      0.9253597     -13488.834    
+      7000   300.09203     -695.90077      44871.332      0.9253597     -13444.804    
+      8000   297.03169     -970.93617      44871.332      0.9253597     -13608.694    
+      9000   309.8003      -938.77496      44871.332      0.9253597     -13533.198    
+     10000   299.49228     -759.92277      44871.332      0.9253597     -13548.926    
+     10092   299.29859     -799.07606      44871.332      0.9253597     -13541.187    
+Loop time of 87.6862 on 4 procs for 10000 steps with 4164 atoms
 
-98.7% CPU use with 4 MPI tasks x no OpenMP threads
-
-Minimization stats:
-  Stopping criterion = quadratic factors are zero
-  Energy initial, next-to-last, final = 
-      137494886.932965 -3.14238155065544e+16 -3.14238155065544e+16
-  Force two-norm initial, final = 3.5580418e+09 1.2508744e+31
-  Force max component initial, final = 2.2413376e+09 8.8450177e+30
-  Final line search alpha, max atom move = 4.4285175e-48 3.9170316e-17
-  Iterations, force evaluations = 35 605
+Performance: 9.853 ns/day, 2.436 hours/ns, 114.043 timesteps/s
+97.9% CPU use with 4 MPI tasks x no OpenMP threads
 
 MPI task timing breakdown:
 Section |  min time  |  avg time  |  max time  |%varavg| %total
 ---------------------------------------------------------------
-Pair    | 6.0776     | 6.4136     | 6.9585     |  13.8 | 74.86
-Bond    | 0.024265   | 0.027268   | 0.029251   |   1.1 |  0.32
-Kspace  | 1.4256     | 1.972      | 2.3124     |  25.1 | 23.02
-Neigh   | 0          | 0          | 0          |   0.0 |  0.00
-Comm    | 0.12427    | 0.12475    | 0.12553    |   0.1 |  1.46
-Output  | 0          | 0          | 0          |   0.0 |  0.00
-Modify  | 0          | 0          | 0          |   0.0 |  0.00
-Other   |            | 0.02974    |            |       |  0.35
+Pair    | 53.995     | 58.017     | 60.398     |  31.7 | 66.16
+Bond    | 0.0072491  | 0.0078256  | 0.0083293  |   0.5 |  0.01
+Kspace  | 16.225     | 18.657     | 22.658     |  55.9 | 21.28
+Neigh   | 5.7921     | 5.7943     | 5.7962     |   0.1 |  6.61
+Comm    | 2.2649     | 2.321      | 2.3747     |   2.6 |  2.65
+Output  | 0.014073   | 0.017378   | 0.024744   |   3.3 |  0.02
+Modify  | 2.628      | 2.6332     | 2.6395     |   0.3 |  3.00
+Other   |            | 0.2389     |            |       |  0.27
 
-Nlocal:           1125 ave        1162 max        1090 min
-Histogram: 1 0 1 0 0 0 1 0 0 1
-Nghost:           9239 ave        9379 max        9121 min
-Histogram: 1 0 1 0 0 0 1 0 0 1
-Neighs:         408731 ave      451880 max      370794 min
-Histogram: 1 0 1 0 0 0 1 0 0 1
+Nlocal:           1041 ave        1065 max        1023 min
+Histogram: 1 1 0 0 0 1 0 0 0 1
+Nghost:        8599.25 ave        8638 max        8567 min
+Histogram: 1 0 1 0 0 1 0 0 0 1
+Neighs:         349140 ave      377617 max      321452 min
+Histogram: 1 0 0 0 1 1 0 0 0 1
 
-Total # of neighbors = 1634925
-Ave neighs/atom = 363.31667
+Total # of neighbors = 1396558
+Ave neighs/atom = 335.38857
 Ave special neighs/atom = 2
-Neighbor list builds = 0
+Neighbor list builds = 488
 Dangerous builds = 0
+
+
+
+
+
+
+
+Total wall time: 0:01:29
