@@ -1,6 +1,8 @@
 tolerance 2.0
+
 output Water_output.pdb
 filetype pdb
+
 structure water.pdb
 number 1500
 inside cube 0. 0. 0. 35.5353
