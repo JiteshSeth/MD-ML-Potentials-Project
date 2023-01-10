@@ -14,7 +14,7 @@ pair_coeff   	* * 0.0 0.0	        # HT
 pair_coeff   	2 2 0.15535 3.166  	# OT
 
 timestep	1.0
-neighbor	2.0 bin
+neighbor	1.0 bin
 neigh_modify    every 1 delay 0 check yes
 
 velocity        all create 300.0 7654321
@@ -31,14 +31,14 @@ fix 		fxnvt all nvt temp 300.0 300.0 100.0
 
 
 thermo_style    custom step temp press vol density epair
-thermo          1000  
+thermo          1
 log             outputFiles/thermo.log
 
 
 
 #run 		10000
-dump            dmpall	all dcd	100 outputFiles/water.dcd   
-run 		10000
+dump            dmpall	all dcd	1 outputFiles/water.dcd   
+run 		1000
 
 
 

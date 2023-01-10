@@ -10,8 +10,8 @@ package require psfgen
 
 mol load pdb Water_output.pdb
 set sel [atomselect top "type OH 1HH 2HH"]
-$sel set segname TIPS3P
-$sel set resname TIP3
+$sel set segname SPCE
+$sel set resname SPC
 
 set sel [atomselect top "type OH"]
 $sel set type OT
@@ -31,8 +31,8 @@ resetpsf
 mol delete all
 
 topology wat.top
-segment TIP {pdb waters.pdb}
-coordpdb waters.pdb TIP
+segment SPC {pdb waters.pdb}
+coordpdb waters.pdb SPC
 writepsf waters.psf
 writepdb waters.pdb
 
