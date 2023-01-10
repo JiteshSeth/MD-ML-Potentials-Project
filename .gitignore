@@ -1,3 +1,7 @@
 water
 lammps-*
 ./Water_inputscript/ouputFiles
+log.*
+*.log
+*.dcd
+*outputFiles/**
