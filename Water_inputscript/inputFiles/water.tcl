@@ -1,4 +1,5 @@
 package require psfgen
+package require topotools
 
 # Types in wat.pdb; OT and HT
 # Names in wat.pdb; OH2 H1 H2
@@ -29,10 +30,8 @@ $sel writepdb ${molname}.pdb
 topology water.top
 segment SPC {pdb ${molname}.pdb}
 coordpdb waters.pdb SPC
-writepsf waters.psf
-writepdb waters.pdb
-
-resetpsf
+writepsf ${molname}.psf
+writepdb ${molname}.pdb
 
 mol load psf ${molname}.psf pdb ${molname}.pdb
 
@@ -43,6 +42,8 @@ set oxy [atomselect top "type OT"]
 $oxy set type 2OT
 $oxy set charge -0.820
 
+topo retypebonds
+topo retypeangles
 topo writelammpsdata ${molname}.lmpsys
 
 set sel [atomselect top all]
