@@ -16,6 +16,19 @@ $oxy set charge -0.820
 
 topo writelammpsdata water.lmpsys
 
+set sel [atomselect top all]
+set mm [measure minmax $sel]
+set xlo [format %.4f  [lindex $mm 0 0]]
+set xhi [format %.4f  [lindex $mm 1 0]]
+set ylo [format %.4f  [lindex $mm 0 1]]
+set yhi [format %.4f  [lindex $mm 1 1]]
+set zlo [format %.4f  [lindex $mm 0 2]]
+set zhi [format %.4f  [lindex $mm 1 2]]
+
+exec sed -i "12s/.*/  $xlo $xhi  xlo xhi/" water.lmpsys
+exec sed -i "13s/.*/  $ylo $yhi  ylo yhi/" water.lmpsys
+exec sed -i "14s/.*/  $zlo $zhi  zlo zhi/" water.lmpsys
+
 mol delete all
 exit
 
