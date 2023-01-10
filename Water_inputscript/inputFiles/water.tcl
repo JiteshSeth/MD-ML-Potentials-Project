@@ -5,7 +5,7 @@ package require psfgen
 # Segname in wat.pdb; TIPS3P
 # Resname in wat.pdb; TIP3
 #
-set pkmlOutput "Water_output"
+set pkmlOutput "pkml_output"
 set molname "waters"
 
 mol load pdb ${pkmlOutput}.pdb
@@ -26,14 +26,13 @@ $sel set name H2
 set sel [atomselect top "type HT OT"]
 $sel writepdb ${molname}.pdb
 
-resetpsf
-mol delete all
-
 topology water.top
 segment SPC {pdb ${molname}.pdb}
 coordpdb waters.pdb SPC
 writepsf waters.psf
 writepdb waters.pdb
+
+resetpsf
 
 mol load psf ${molname}.psf pdb ${molname}.pdb
 
@@ -44,7 +43,7 @@ set oxy [atomselect top "type OT"]
 $oxy set type 2OT
 $oxy set charge -0.820
 
-topo writelammpsdata water.lmpsys
+topo writelammpsdata ${molname}.lmpsys
 
 set sel [atomselect top all]
 set mm [measure minmax $sel]
@@ -55,9 +54,9 @@ set yhi [format %.4f  [lindex $mm 1 1]]
 set zlo [format %.4f  [lindex $mm 0 2]]
 set zhi [format %.4f  [lindex $mm 1 2]]
 
-exec sed -i "12s/.*/  $xlo $xhi  xlo xhi/" water.lmpsys
-exec sed -i "13s/.*/  $ylo $yhi  ylo yhi/" water.lmpsys
-exec sed -i "14s/.*/  $zlo $zhi  zlo zhi/" water.lmpsys
+exec sed -i "12s/.*/  $xlo $xhi  xlo xhi/" ${molname}.lmpsys
+exec sed -i "13s/.*/  $ylo $yhi  ylo yhi/" ${molname}.lmpsys
+exec sed -i "14s/.*/  $zlo $zhi  zlo zhi/" ${molname}.lmpsys
 
 mol delete all
 exit
