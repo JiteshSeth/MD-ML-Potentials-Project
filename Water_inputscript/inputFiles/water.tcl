@@ -1,9 +1,41 @@
-package require topotools
+package require psfgen
 
-
+# Types in wat.pdb; OT and HT
+# Names in wat.pdb; OH2 H1 H2
+# Segname in wat.pdb; TIPS3P
+# Resname in wat.pdb; TIP3
+#
+set pkmlOutput "Water_output"
 set molname "waters"
 
+mol load pdb ${pkmlOutput}.pdb
+set sel [atomselect top "type OH 1HH 2HH"]
+$sel set segname SPCE
+$sel set resname SPC
 
+set sel [atomselect top "type OH"]
+$sel set type OT
+$sel set name OH2
+set sel [atomselect top "type 1HH"]
+$sel set type HT
+$sel set name H1
+set sel [atomselect top "type 2HH"]
+$sel set type HT
+$sel set name H2
+
+set sel [atomselect top "type HT OT"]
+$sel writepdb waters.pdb
+
+resetpsf
+mol delete all
+
+topology wat.top
+segment SPC {pdb waters.pdb}
+coordpdb waters.pdb SPC
+writepsf waters.psf
+writepdb waters.pdb
+
+set molname "waters"
 
 mol load psf ${molname}.psf pdb ${molname}.pdb
 
