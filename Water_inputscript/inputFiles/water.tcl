@@ -24,18 +24,16 @@ $sel set type HT
 $sel set name H2
 
 set sel [atomselect top "type HT OT"]
-$sel writepdb waters.pdb
+$sel writepdb ${molname}.pdb
 
 resetpsf
 mol delete all
 
-topology wat.top
-segment SPC {pdb waters.pdb}
+topology water.top
+segment SPC {pdb ${molname}.pdb}
 coordpdb waters.pdb SPC
 writepsf waters.psf
 writepdb waters.pdb
-
-set molname "waters"
 
 mol load psf ${molname}.psf pdb ${molname}.pdb
 
