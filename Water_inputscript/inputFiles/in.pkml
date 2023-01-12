@@ -5,5 +5,5 @@ filetype pdb
 
 structure water.pdb
 number 1500
-inside cube 0. 0. 0. 35.5353
+inside cube 0. 0. 0. 35.53
 end structure 
