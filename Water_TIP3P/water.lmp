@@ -1,0 +1,50 @@
+units		real
+atom_style	full
+boundary	p p p 
+
+    
+pair_style	lj/cut/coul/long 10.0 10.0 
+kspace_style 	pppm 0.0001
+bond_style   	harmonic
+angle_style  	harmonic
+
+read_data	inputFiles/waters.lmpsys
+
+bond_coeff   	1 450 1.0                       #TIP3P 
+angle_coeff  	1 55  104.52
+pair_coeff   	1 1 0.0460 0.4000	        # HT
+pair_coeff   	2 2 0.1521 3.1507  	        # OT
+pair_coeff      1 2 0.0836 1.7753
+
+timestep	1.0
+neighbor	1.0 bin
+neigh_modify    every 1 delay 0 check yes
+
+velocity        all create 300.0 7654321
+
+
+minimize 	1.0e-4 1.0e-4 1000 1000
+
+
+
+fix 		fxshk all shake 0.0001 20 0 b 1 a 1
+fix 		fxnvt all nvt temp 300.0 300.0 100.0
+#fix             fxnpt all npt temp 300.0 300.0 100.0 iso 1.0 1.0 100.0 
+
+
+thermo_style    custom step temp press f_PressAve vol density epair
+thermo          1000
+log             outputFiles/thermo.log
+
+
+
+#run 		10000
+dump            dmpall	all dcd	1000 outputFiles/water.dcd   
+run 		15000
+
+
+
+
+
+
+
