@@ -1,9 +1,9 @@
 tolerance 2.0
 
-output pkml_output.pdb
+output pkml_output_dens1005.pdb
 filetype pdb
 
 structure water.pdb
 number 1500
-inside cube 0. 0. 0. 35.53
+inside cube 0. 0. 0. 35.476317816
 end structure 

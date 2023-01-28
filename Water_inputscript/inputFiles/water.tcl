@@ -6,8 +6,8 @@ package require topotools
 # Segname in wat.pdb; TIPS3P
 # Resname in wat.pdb; TIP3
 #
-set pkmlOutput "pkml_output"
-set molname "waters"
+set pkmlOutput "pkml_output_dens1005"
+set molname "waters_dens1005"
 
 mol load pdb ${pkmlOutput}.pdb
 set sel [atomselect top "type OH 1HH 2HH"]
@@ -29,7 +29,7 @@ $sel writepdb ${molname}.pdb
 
 topology water.top
 segment SPC {pdb ${molname}.pdb}
-coordpdb waters.pdb SPC
+coordpdb ${molname}.pdb SPC
 writepsf ${molname}.psf
 writepdb ${molname}.pdb
 
