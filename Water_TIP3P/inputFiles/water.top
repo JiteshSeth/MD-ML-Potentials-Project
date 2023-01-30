@@ -19,11 +19,11 @@
 MASS	 4 HT	  1.00800 H ! WATER HYDROGEN
 MASS	75 OT	 15.99940 O ! WATER OXYGEN
 
-RESI SPC	  0.000 ! SPC/E water model
+RESI TIP3	  0.000 ! TIP3P water model
 GROUP
-ATOM OH2  OT	 -0.8476
-ATOM H1	  HT	  0.4238
-ATOM H2	  HT	  0.4238
+ATOM OH2  OT	 -0.834
+ATOM H1	  HT	  0.417
+ATOM H2	  HT	  0.417
 !BOND OH2 H1 OH2 H2 H1 H2    ! the last bond is needed for shake
 BOND OH2 H1 OH2 H2
 ANGLE H1 OH2 H2		    ! required

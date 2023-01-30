@@ -6,13 +6,13 @@ package require topotools
 # Segname in wat.pdb; TIPS3P
 # Resname in wat.pdb; TIP3
 #
-set pkmlOutput "pkml_output"
-set molname "waters"
+set pkmlOutput "pkml_output_dens1005"
+set molname "waters_dens1005"
 
 mol load pdb ${pkmlOutput}.pdb
 set sel [atomselect top "type OH 1HH 2HH"]
-$sel set segname SPCE
-$sel set resname SPC
+$sel set segname TIPS3P
+$sel set resname TIP3
 
 set sel [atomselect top "type OH"]
 $sel set type OT
@@ -28,8 +28,8 @@ set sel [atomselect top "type HT OT"]
 $sel writepdb ${molname}.pdb
 
 topology water.top
-segment SPC {pdb ${molname}.pdb}
-coordpdb waters.pdb SPC
+segment TIP {pdb ${molname}.pdb}
+coordpdb ${molname}.pdb TIP
 writepsf ${molname}.psf
 writepdb ${molname}.pdb
 
@@ -37,10 +37,10 @@ mol load psf ${molname}.psf pdb ${molname}.pdb
 
 set hyd [atomselect top "type HT"]
 $hyd set type 1HT
-$hyd set charge 0.4238
+$hyd set charge 0.417
 set oxy [atomselect top "type OT"]
 $oxy set type 2OT
-$oxy set charge -0.8476
+$oxy set charge -0.834
 
 topo retypebonds
 topo retypeangles
