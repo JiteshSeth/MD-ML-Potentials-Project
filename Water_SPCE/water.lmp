@@ -27,8 +27,8 @@ minimize 	1.0e-4 1.0e-4 1000 1000
 
 
 fix 		fxshk all shake 0.0001 20 0 b 1 a 1
-fix 		fxnvt all nvt temp ${temperature} ${temperature} 100.0
-#fix             fxnpt all npt temp 300.0 300.0 100.0 iso 1.0 1.0 100.0 
+#fix 		fxnvt all nvt temp ${temperature} ${temperature} 100.0
+fix             fxnpt all npt temp ${temperature} ${temperature} 100.0 iso 1.0 1.0 100.0 
 
 
 variable        Nevery equal 20                      #Specify the distance (in timesteps) between samples for computing ensemble aver$
