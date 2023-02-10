@@ -5,3 +5,4 @@ log.*
 *.log
 *.dcd
 *outputFiles/**
+/home/sarith/Lammps_JProject/Water_SPCE/.idea
