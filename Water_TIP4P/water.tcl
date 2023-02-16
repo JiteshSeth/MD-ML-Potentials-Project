@@ -47,6 +47,7 @@ $oxy set charge 0.5564
 set mw [atomselect top "type MO"]
 $mw set type 3MO
 $mw set charge -1.1128
+$mw set mass 1.0e-16
 
 topo retypebonds
 topo retypeangles
