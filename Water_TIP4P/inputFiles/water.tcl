@@ -11,8 +11,8 @@ set molname "waters"
 
 mol load pdb ${pkmlOutput}.pdb
 set sel [atomselect top "type OH 1HH 2HH"]
-$sel set segname TIPS3P
-$sel set resname TIP3
+$sel set segname TIPS4P
+$sel set resname TIP4
 
 set sel [atomselect top "type OH"]
 $sel set type OT
@@ -24,7 +24,7 @@ set sel [atomselect top "type 2HH"]
 $sel set type HT
 $sel set name H2
 
-set sel [atomselect top "type HT OT"]
+set sel [atomselect top "type OT HT"]
 $sel writepdb ${molname}.pdb
 
 topology water.top
@@ -35,12 +35,14 @@ writepdb ${molname}.pdb
 
 mol load psf ${molname}.psf pdb ${molname}.pdb
 
-set hyd [atomselect top "type HT"]
-$hyd set type 1HT
-$hyd set charge 0.5564
 set oxy [atomselect top "type OT"]
-$oxy set type 2OT
-$oxy set charge -1.1128
+$oxy set type 1OT
+$oxy set charge -1.0484
+set hyd [atomselect top "type HT"]
+$hyd set type 2HT
+$hyd set charge 0.5242
+
+
 
 topo retypebonds
 topo retypeangles
