@@ -1,3 +1,4 @@
+./.*
 water
 lammps-*
 ./Water_inputscript/ouputFiles
@@ -5,4 +6,5 @@ log.*
 *.log
 *.dcd
 *outputFiles/**
-/home/sarith/Lammps_JProject/Water_SPCE/.idea
+.vscode/*
+*/.idea/**
