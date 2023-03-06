@@ -8,12 +8,12 @@ kspace_style 	pppm 0.0001
 bond_style   	harmonic
 angle_style  	harmonic
 
-read_data	inputFiles/waters_dens1000.lmpsys
+read_data	inputFiles/waters.lmpsys
 
-bond_coeff   	1 5000.0 1.0 
-angle_coeff  	1 500.0 109.47
+bond_coeff   	1 529.581 1.012
+angle_coeff  	1 37.95 113.24
 pair_coeff   	* * 0.0 0.0	        # HT
-pair_coeff   	2 2 0.15539421659476232 3.16555789  	# OT
+pair_coeff   	2 2 0.155425 3.165492 	# OT
 
 timestep	1.0
 neighbor	1.0 bin
@@ -26,7 +26,7 @@ minimize 	1.0e-4 1.0e-4 1000 1000
 
 
 
-fix 		fxshk all shake 0.0001 20 0 b 1 a 1
+#fix 		fxshk all shake 0.0001 20 0 b 1 a 1
 #fix 		fxnvt all nvt temp ${temperature} ${temperature} 100.0
 fix             fxnpt all npt temp ${temperature} ${temperature} 100.0 iso 1.0 1.0 100.0 
 
@@ -43,7 +43,7 @@ variable        Temperature equal temp              #Call the instantaneous temp
 variable        Density equal density               #Call the instantaneous density $Density (will not change for NVT)
 
 
-fix             3 all ave/time ${Nevery} ${Nrepeat} ${Nfreq} v_Temperature  v_PotentialEnergy  v_Pressure  file   NPTaverage_output/ave_NPT_${temperature}.out
+fix             3 all ave/time ${Nevery} ${Nrepeat} ${Nfreq} v_Temperature  v_PotentialEnergy  v_Pressure file  NPTaverage_output/ave_NPT_${temperature}.out
 
 
 thermo_style    custom step temp press vol density epair pe ke etotal
