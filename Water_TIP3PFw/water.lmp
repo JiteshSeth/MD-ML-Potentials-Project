@@ -3,8 +3,8 @@ atom_style	full
 boundary	p p p 
 
     
-pair_style	lj/cut/coul/long 10.0 10.0 
-kspace_style 	pppm 0.0001
+pair_style	lj/cut/coul/long/gpu 10.0 10.0 
+kspace_style 	pppm/gpu 0.0001
 bond_style   	harmonic
 angle_style  	harmonic
 
@@ -20,7 +20,7 @@ timestep	1.0
 neighbor	1.0 bin
 neigh_modify    every 1 delay 0 check yes
 
-velocity        all create ${temperature} 7654321
+velocity        all create ${temperature} ${irun}
 
 
 minimize 	1.0e-4 1.0e-4 1000 1000
@@ -43,7 +43,7 @@ variable        Temperature equal temp              #Call the instantaneous temp
 variable        Density equal density               #Call the instantaneous density $Density (will not change for NVT)
 
 
-fix             3 all ave/time ${Nevery} ${Nrepeat} ${Nfreq} v_Temperature v_PotentialEnergy v_Pressure file   NPTaverage_output/ave_NPT_${temperature}.out
+fix             3 all ave/time ${Nevery} ${Nrepeat} ${Nfreq} v_Temperature v_PotentialEnergy v_Pressure file   NPTaverage_output/ave_NPT_${temperature}_${irun}.out
 
 
 thermo_style    custom step temp press  vol density epair pe ke etotal
@@ -54,8 +54,8 @@ log             outputFiles/water_NPT_${temperature}.log
 
 #run 		10000
 #dump            dmpall	all dcd	1000 outputFiles/water_${density}_${temperature}.dcd  
-dump            dmpall	all dcd	1000 outputFiles/water_NPT_${temperature}.dcd 
-run 		3000000
+dump            dmpall	all dcd	1000 outputFiles/water_NPT_${temperature}_${irun}.dcd 
+run 		2000000
 
 
 
