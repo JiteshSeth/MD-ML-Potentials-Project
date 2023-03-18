@@ -1,33 +1,36 @@
-units		real
-atom_style	full
-boundary	p p p 
+units           real
+atom_style      full
+boundary        p p p 
 
     
-pair_style	lj/cut/coul/long 10.0 10.0 
-kspace_style 	pppm 0.0001
-bond_style   	harmonic
-angle_style  	harmonic
+pair_style      lj/cut/coul/long/gpu 10.0 10.0 
+kspace_style    pppm/gpu 0.0001
+bond_style      harmonic
+angle_style     harmonic
 
-read_data	inputFiles/waters_dens1000.lmpsys
 
-bond_coeff   	1 5000.0 1.0 
-angle_coeff  	1 500.0 109.47
-pair_coeff   	* * 0.0 0.0	        # HT
-pair_coeff   	2 2 0.15539421659476232 3.16555789  	# OT
+read_data       inputFiles/waters_dens1000.lmpsys
 
-timestep	1.0
-neighbor	1.0 bin
+
+bond_coeff      1 5000.0 1.0 
+angle_coeff     1 500.0 109.47
+pair_coeff      * * 0.0 0.0	                        # HT
+pair_coeff      2 2 0.15539421659476232 3.16555789  	# OT
+
+
+timestep        1.0
+neighbor        1.0 bin
 neigh_modify    every 1 delay 0 check yes
 
-velocity        all create ${temperature} 7654321
+
+velocity        all create ${temperature} ${irun}
 
 
-minimize 	1.0e-4 1.0e-4 1000 1000
+minimize        1.0e-4 1.0e-4 1000 1000
 
 
-
-fix 		fxshk all shake 0.0001 20 0 b 1 a 1
-#fix 		fxnvt all nvt temp ${temperature} ${temperature} 100.0
+fix             fxshk all shake 0.0001 20 0 b 1 a 1
+#fix            fxnvt all nvt temp ${temperature} ${temperature} 100.0
 fix             fxnpt all npt temp ${temperature} ${temperature} 100.0 iso 1.0 1.0 100.0 
 
 
@@ -37,29 +40,28 @@ variable        Nrepeat equal 50                     #Specify the number of samp
                                                      #  (Samples per block output)
 variable        Nfreq equal ${Nevery}*${Nrepeat}     #Specify the dump interval (in timesteps)
                                                      #  (Some people call these blocks)
-variable        PotentialEnergy equal epair         #Call the intermolecular potential energy $PotentialEnergy
-variable        Pressure equal press                #Call the pressure $Pressure
-variable        Temperature equal temp              #Call the instantaneous temperature $Temperature
-variable        Density equal density               #Call the instantaneous density $Density (will not change for NVT)
+variable        PotentialEnergy equal epair          #Call the intermolecular potential energy $PotentialEnergy
+
+variable        Pressure equal press                 #Call the pressure $Pressure
+
+variable        Temperature equal temp               #Call the instantaneous temperature $Temperature
+
+variable        Density equal density                #Call the instantaneous density $Density (will not change for NVT)
 
 
-fix             3 all ave/time ${Nevery} ${Nrepeat} ${Nfreq} v_Temperature  v_PotentialEnergy  v_Pressure  file   NPTaverage_output/ave_NPT_${temperature}.out
+fix             3 all ave/time ${Nevery} ${Nrepeat} ${Nfreq} v_Temperature  v_PotentialEnergy  v_Pressure  file   NPTaverage_output/ave_NPT_${temperature}_${irun}.out
 
 
 thermo_style    custom step temp press vol density epair pe ke etotal
 thermo          1000
-log             outputFiles/water_NPT_${temperature}.log
+log             outputFiles/water_NPT_${temperature}_${irun}.log
 
+ 
+dump            dmpall all dcd 1000 outputFiles/water_NPT_${temperature}_${irun}.dcd  
 
+run             2000000
 
-#run 		10000
-#dump            dmpall	all dcd	1000 outputFiles/water_dens_${density}_${temperature}.dcd   
-dump            dmpall	all dcd	1000 outputFiles/water_NPT_${temperature}.dcd  
-run 		3000000
+write_restart      ./outputFiles/restart_${temperature}_${irun}.*restart         
 
-
-
-
-
-
+write_data         ./outputFiles/restart_${temperature}_${irun}.lmpsys
 
