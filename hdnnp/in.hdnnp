@@ -1,0 +1,77 @@
+###############################################################################
+# MD simulation for HDNNP water
+###############################################################################
+
+###############################################################################
+# VARIABLES
+###############################################################################
+clear
+# Configuration files
+variable cfgFile         string "data.H2O-360mol"
+# Timesteps
+variable numSteps        equal  2000
+variable dt              equal  0.0005
+# HDNNP
+variable hdnnpCutoff     equal  6.36
+variable hdnnpDir        string "hdnnp-data"
+
+###############################################################################
+# GENERAL SETUP
+###############################################################################
+units metal
+boundary p p p
+atom_style atomic
+read_data ${cfgFile}
+timestep ${dt}
+
+###############################################################################
+# HDNNP
+###############################################################################
+pair_style hdnnp ${hdnnpCutoff} dir ${hdnnpDir} showew no showewsum 0 resetew no maxew 1000 cflength 1.8897261328 cfenergy 0.0367493254
+pair_coeff * * H O
+
+
+###############################################################################
+# OUTPUT
+###############################################################################
+variable                seed equal 10*765451
+variable                Pxy equal pxy
+variable                Pxz equal pxz
+variable                Pyz equal pyz
+variable                Pressure equal press
+variable                Density equal density
+variable                Temp equal temp
+variable                Volume equal vol
+variable                Epair equal epair 
+variable                Etotal equal etotal
+
+velocity                all create 300 ${seed} mom yes rot yes dist gaussian
+
+minimize 	        1.0e-6 1.0e-6 10000 10000
+
+thermo_style            custom step temp press vol density pe ke epair etotal
+thermo                  1000
+
+reset_timestep          0
+
+# equlibration
+
+
+fix                     fnpt all npt temp 300.0 300.0 100.0 iso 1.0 1.0 100.0
+run                     100000
+
+unfix                   fnpt
+fix                     fnvt all nvt temp 300.0 300. 100.0
+
+thermo_style            custom step temp press vol density pe ke epair etotal
+thermo                  200000
+
+
+reset_timestep          0
+#sampling
+
+fix                     prop all ave/time 20 2500 200000 v_Temp v_Pressure v_Density v_Volume v_Epair v_Etotal file output/Prop.dat
+fix                     PT all print 1 "${Pxy} ${Pxz} ${Pyz}" file output/PT.dat screen no
+dump                    dmpall all dcd 1000 output/water.dcd
+run                     3000
+
