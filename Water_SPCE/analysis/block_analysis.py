@@ -54,6 +54,55 @@ def main():
             timestep = []
             LAMMPS_data = [LAMMPS_Thermo() for x in columns]
         elif i > 1:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             # Add the current line of data to the time-series data objects
             if int(line.split()[0]) > min_timestep:
                 timestep.append(int(line.split()[0]))

@@ -3,7 +3,7 @@ atom_style	full
 boundary	p p p 
 
     
-pair_style	lj/cut/tip4p/long 1 2 1 1 0.1250 10 8.5
+pair_style	lj/cut/tip4p/long/gpu 1 2 1 1 0.1250 10 8.5
 kspace_style 	pppm/tip4p 1.0e-4
 bond_style   	harmonic
 angle_style  	harmonic
@@ -21,7 +21,7 @@ pair_coeff   	* * 0.00000 0.00000
 pair_coeff   	1 1 0.16275 3.16435  	        # OT
 
 
-velocity        all create ${temperature} 7654321 
+velocity        all create ${temperature} ${irun} 
 
 
 minimize 	1.0e-6 1.0e-6 10000 10000
@@ -30,7 +30,7 @@ minimize 	1.0e-6 1.0e-6 10000 10000
 
 #fix 		fxshk all shake 0.0001 20 0 b 1 a 1
 #fix 		fxnvt all nvt temp ${temperature} ${temperature} 100.0
-fix             fxnpt all npt temp ${temperature} ${temperature} 100.0 iso 1.0 1.0 1000.0 
+fix             fxnpt all npt/gpu temp ${temperature} ${temperature} 100.0 iso 1.0 1.0 1000.0 
 
 variable        Nevery equal 20                      #Specify the distance (in timesteps) between samples for computing ensemble aver$
                                                      #  (Interval between samples in a block)
@@ -44,19 +44,23 @@ variable        Temperature equal temp              #Call the instantaneous temp
 variable        Density equal density               #Call the instantaneous density $Density (will not change for NVT)
 
 
-fix             3 all ave/time ${Nevery} ${Nrepeat} ${Nfreq} v_Temperature v_PotentialEnergy v_Pressure file   ave_NPT_${temperature}.out
+fix             3 all ave/time ${Nevery} ${Nrepeat} ${Nfreq} v_Temperature v_PotentialEnergy v_Pressure file   ave_NPT_${temperature}_${irun}.out
 
 
 thermo_style    custom step temp press  vol density epair
 thermo          1000
-log             outputFiles/water_NPT_${temperature}.log
+log             outputFiles/water_NPT_${temperature}_${irun}.log
 
 
 
 #run 		10000
 #dump            dmpall	all dcd	1000 outputFiles/water_${density}_${temperature}.dcd  
-dump            dmpall	all dcd	10 outputFiles/water_NPT_${temperature}.dcd 
-run 		1000000
+dump            dmpall	all dcd	10 outputFiles/water_NPT_${temperature}_${irun}.dcd 
+run 		2000000
+
+write_restart      ./outputFiles/restart_${temperature}_${irun}.*restart         
+
+write_data         ./outputFiles/restart_${temperature}_${irun}.lmpsys
 
 
 

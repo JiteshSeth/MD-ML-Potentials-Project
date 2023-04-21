@@ -1,0 +1,59 @@
+# LAMMPS script for NEMD simulation to calculate viscosity
+
+units           real
+atom_style      full
+boundary        p p p 
+
+pair_style      lj/cut/coul/long/gpu 10.0 10.0 
+kspace_style    pppm/gpu 0.0001
+bond_style      harmonic
+angle_style     harmonic
+
+read_data       inputFiles/waters_dens1000.lmpsys
+
+bond_coeff      1 5000.0 1.0 
+angle_coeff     1 500.0 109.47
+pair_coeff      * * 0.0 0.0	                        # HT
+pair_coeff      2 2 0.15539421659476232 3.16555789  	# OT
+
+timestep        1.0
+neighbor        1.0 bin
+neigh_modify    every 1 delay 0 check yes
+
+# Define temperature, shear rate, and integration time
+variable        temperature equal 300
+variable        shear_rate equal 1e7
+variable        integration_time equal 1e6
+
+# Compute box size and initialize velocities
+region          box block 0 30 0 30 0 30
+create_box      2 box
+create_atoms    1 box
+mass            1 1.008
+mass            2 15.9994
+velocity        all create ${temperature} 12345
+
+# Define fix for NEMD shear
+fix             1 all nve/sphere
+fix             2 all deform 1 xy erate ${shear_rate} remap v
+
+# Define fix for shear stress autocorrelation function
+compute         1 all stress/atom NULL virial
+variable        c_mytime equal ramp(0,${integration_time},1000)
+fix             3 all ave/correlate ${integration_time} 1 1000 c_mytime v_1[1] v_1[2] v_1[3] file shear_stress_correlation.out mode vector
+
+# Compute the viscosity
+variable        sxy equal -(c_3[1]+c_3[5])/vol
+variable        viscosity equal -v_sxy/${shear_rate}
+
+# Run simulation
+thermo          1000
+thermo_style    custom step temp press vol density epair pe ke etotal
+run             2000000
+
+# Write restart and output files
+write_restart   ./outputFiles/restart_${temperature}_${shear_rate}.*restart         
+write_data      ./outputFiles/restart_${temperature}_${shear_rate}.lmpsys
+log             outputFiles/water_NEMD_${temperature}_${shear_rate}.log
+dump            1 all custom 1000 outputFiles/water_NEMD_${temperature}_${shear_rate}.dump id type x y z
+
